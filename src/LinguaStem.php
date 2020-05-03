@@ -1,14 +1,65 @@
 <?php
 
+/**
+ * LinguaStem
+ *
+ * Implementation of the Porter Stemmer algorithm with support English, Russian and Ukrainian locales.
+ *
+ * Based on PorterStemmer class [https://tartarus.org/martin/PorterStemmer/php.txt] and
+ * [http://snowball.tartarus.org/algorithms/russian/stemmer.html]
+ *
+ * @category        Class
+ * @version         1.0.0
+ * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
+ * @link            https://github.com/wdmg/yii2-activity
+ * @copyright       Copyright (c) 2020 by W.D.M.Group, Ukraine (https://wdmg.com.ua/)
+ * @copyright       Copyright (c) 2017 by Roman Romadin <romadinr@i.ua>
+ * @copyright       Copyright (c) 2005 by Richard Heyes (https://www.phpguru.org/)
+ * @copyright       Copyright (c) 2005 by Jon Abernathy, Hostmake LLC
+ * @copyright       Copyright (C) 2003 by Aldo Calpini <dada@perl.it>
+ * @copyright       Copyright (C) 2004 by Aleksandr Guidrevitch <pillgrim@mail.ru>
+ * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
+ *
+ *
+ * Usage:
+ *
+ *     $stem = new LinguaStem('en');
+ *     print $stem::word($word);
+ *
+ *     or
+ *
+ *     $stem = new LinguaStem('en');
+ *     print $stem->text($text);
+ *
+ */
+
 class LinguaStem {
 
+    /**
+     * @var int Default cahce level
+     */
     public $caching = 0;
-    
-    private $cache = [];
 
+    /**
+     * @var string Current locale
+     */
     protected $_locale;
+
+    /**
+     * @var array RegEx patterns collertion
+     */
     protected $_patterns;
 
+    /**
+     * @var array Words basis cache
+     */
+    private $cache = [];
+
+    /**
+     * LinguaStem constructor.
+     *
+     * @param null $locale
+     */
     function __construct($locale = null) {
 
         mb_internal_encoding('UTF-8');
@@ -25,6 +76,15 @@ class LinguaStem {
         }
     }
 
+    /**
+     * Performs pattern replacement
+     *
+     * @param $subject
+     * @param $pattern
+     * @param $replacement
+     * @param int $count
+     * @return bool
+     */
     private function stringReplace(&$subject, $pattern, $replacement, $count = 0)
     {
         $orig = $subject;
@@ -32,11 +92,24 @@ class LinguaStem {
         return $orig !== $subject;
     }
 
+    /**
+     * Performs pattern matching
+     *
+     * @param $subject
+     * @param $pattern
+     * @return bool (false)|int
+     */
     private function pregMatch($subject, $pattern)
     {
         return preg_match($pattern, $subject);
     }
 
+    /**
+     * Processing one words and return word basis
+     *
+     * @param $word
+     * @return string
+     */
     public function word($word)
     {
         $word = mb_strtolower($word);
@@ -363,7 +436,8 @@ class LinguaStem {
     }
     
     /**
-     * Стэмит все слова в тексте, оставляя пробелы и прочие знаки препинания на месте.
+     * Processing all words in the text, leaving spaces and other punctuation marks in place.
+     *
      * @param $text
      * @return string
      */
@@ -404,16 +478,17 @@ class LinguaStem {
     }
 
     /**
+     * Add words to cache
      *
      * '0' means 'no caching'. This is the default level.
      * '1' means 'cache per run'. This caches stemming results during a single call.
      * '2' means 'cache indefinitely'. This caches stemming results until either the process exits or the 'clear_cache' method is called.
-     * @param $parm_ref
+     * @param int $param legal value
      * @return int|mixed
      */
-    public function addCache($parm)
+    public function addCache($param)
     {
-        $level = @$parm['-level'];
+        $level = @$param['-level'];
         if ($level) {
             if (!$this->pregMatch($level, '/^[012]$/')) {
                 die(__CLASS__ . "::addCache() - Legal values are '0', '1' or '2'. '$level' is not a legal value");
@@ -425,22 +500,15 @@ class LinguaStem {
     }
 
     /**
-     *
+     * Clearing words cache
      */
     public function clearCache()
     {
         $this->_cache = [];
     }
 
-
-
-
     /**
-     * What, you mean it's not obvious from the name?
-     *
-     * m() measures the number of consonant sequences in $str. if c is
-     * a consonant sequence and v a vowel sequence, and <..> indicates arbitrary
-     * presence,
+     * Measures the number of consonant sequences in $string.
      *
      * <c><v>       gives 0
      * <c>vc<v>     gives 1
@@ -448,9 +516,9 @@ class LinguaStem {
      * <c>vcvcvc<v> gives 3
      *
      * @param null $string The string to return the m count for
-     * @param null $vowel Regex of vowel
-     * @param null $consonant Regex of consonant
-     * @return int|null The m count
+     * @param null $vowel regex of vowel
+     * @param null $consonant regex of consonant
+     * @return int|null the count of consonant sequences
      */
     private function mCount($string = null, $vowel = null, $consonant = null)
     {
@@ -470,9 +538,9 @@ class LinguaStem {
      * Returns true/false as to whether the given string contains two
      * of the same consonant next to each other at the end of the string.
      *
-     * @param null $string String to check
-     * @param null $consonant Regex of consonant
-     * @return bool|null Result
+     * @param null $string string to check
+     * @param null $consonant regex of consonant
+     * @return bool|null result
      */
     private function doubleConsonant($string = null, $consonant = null)
     {
@@ -487,10 +555,10 @@ class LinguaStem {
     /**
      * Checks for ending CVC sequence where second C is not W, X or Y
      *
-     * @param null $string  String to check
-     * @param null $vowel Regex of vowel
-     * @param null $consonant Regex of consonant
-     * @return bool|null Result
+     * @param null $string  string to check
+     * @param null $vowel regex of vowel
+     * @param null $consonant regex of consonant
+     * @return bool|null result
      */
     private function cvcSequence($string = null, $vowel = null, $consonant = null)
     {
