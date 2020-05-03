@@ -36,22 +36,22 @@
 class LinguaStem {
 
     /**
-     * @var int Default cahce level
+     * @var int, Default cahce level
      */
     public $caching = 0;
 
     /**
-     * @var string Current locale
+     * @var string, Locale in ISO 639-1, like `en`, `uk` or `ru`
      */
     protected $_locale;
 
     /**
-     * @var array RegEx patterns collertion
+     * @var array, RegEx patterns collertion
      */
     protected $_patterns;
 
     /**
-     * @var array Words basis cache
+     * @var array, Words basis cache
      */
     private $cache = [];
 
@@ -82,13 +82,13 @@ class LinguaStem {
      * @param $subject
      * @param $pattern
      * @param $replacement
-     * @param int $count
+     * @param int $limit
      * @return bool
      */
-    private function stringReplace(&$subject, $pattern, $replacement, $count = 0)
+    private function stringReplace(&$subject, $pattern, $replacement, $limit = -1)
     {
         $orig = $subject;
-        $subject = preg_replace($pattern, $replacement, $subject);
+        $subject = preg_replace($pattern, $replacement, $subject, $limit);
         return $orig !== $subject;
     }
 
