@@ -11,7 +11,7 @@
  * @category        Class
  * @version         1.0.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
- * @link            https://github.com/wdmg/yii2-activity
+ * @link            https://github.com/wdmg/lingua-stem
  * @copyright       Copyright (c) 2020 by W.D.M.Group, Ukraine (https://wdmg.com.ua/)
  * @copyright       Copyright (c) 2017 by Roman Romadin <romadinr@i.ua>
  * @copyright       Copyright (c) 2005 by Richard Heyes (https://www.phpguru.org/)
@@ -66,12 +66,16 @@ class LinguaStem {
 
         if (!is_null($locale) && is_string($locale)) {
 
+            // Sub-string `en-US`, `en_US` to `en`
+            $locale = mb_substr($locale, 0, 2);
             $this->_locale = mb_strtolower($locale);
 
             if ($library = require __DIR__ . '/lib/' . $this->_locale . '.php') {
                 if (isset($library[$this->_locale])) {
                     $this->_patterns = $library[$this->_locale];
                 }
+            } else {
+                // Exeption
             }
         }
     }
@@ -238,7 +242,7 @@ class LinguaStem {
 
             // Step 2
             if ($this->_locale == 'en') {
-                switch (substr($end, -2, 1)) {
+                switch (mb_substr($end, -2, 1)) {
 
                     case 'a':
                         $this->stringReplace($end, '/ational/', 'ate')
@@ -468,7 +472,7 @@ class LinguaStem {
                 $pos = $new_pos + 1;
             } else {
                 $stemmed = $this->word($word);
-                $stemmed_part = str_replace($word, $stemmed, $word_part);
+                $stemmed_part = str_ireplace($word, $stemmed, $word_part);
                 $text = mb_substr($text, 0, $pos) . $stemmed_part . mb_substr($text, $new_pos);
                 $pos = $new_pos - ((mb_strlen($word) - mb_strlen($stemmed)));
             }
