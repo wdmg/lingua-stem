@@ -40,6 +40,7 @@ https://en.wikipedia.org/wiki/Stemming
 https://ru.wikipedia.org/wiki/Стеммер_Портера
 
 # Status and version [ready to use]
+* v.1.0.1 - Added namespace
 * v.1.0.0 - Added LinguaStem() class code and library  of patterns
 
 # Copyrights

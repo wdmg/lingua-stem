@@ -1,5 +1,7 @@
 <?php
 
+namespace wdmg\lingua;
+
 /**
  * LinguaStem
  *
@@ -8,8 +10,8 @@
  * Based on PorterStemmer class [https://tartarus.org/martin/PorterStemmer/php.txt] and
  * [http://snowball.tartarus.org/algorithms/russian/stemmer.html]
  *
- * @category        Class
- * @version         1.0.0
+ * @category        Library
+ * @version         1.0.1
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/lingua-stem
  * @copyright       Copyright (c) 2020 by W.D.M.Group, Ukraine (https://wdmg.com.ua/)
