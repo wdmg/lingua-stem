@@ -134,7 +134,7 @@ class LinguaStem {
         if ($this->caching && isset($this->_cache[$word])) {
             return $this->_cache[$word];
         }
-        
+
         $stem = $word;
         do {
             $start = null;
@@ -150,7 +150,7 @@ class LinguaStem {
 
             if (!$start || !$end)
                 break;
-            
+
             // Step 1
             if ($this->_locale == 'en') {
 
@@ -434,13 +434,13 @@ class LinguaStem {
             $stem = $start . $end;
 
         } while (false);
-        
+
         if ($this->caching)
             $this->_cache[$word] = $stem;
-        
+
         return $stem;
     }
-    
+
     /**
      * Processing all words in the text, leaving spaces and other punctuation marks in place.
      *
@@ -552,7 +552,7 @@ class LinguaStem {
     {
         if (!is_null($string) && !is_null($consonant)) {
             $consonant = ltrim(rtrim($consonant, '+/'), '/');
-            return preg_match("/$consonant{2}$/", $string, $matches) AND $matches[0]{0} == $matches[0]{1};
+            return preg_match("/$consonant[2]$/", $string, $matches) AND $matches[0][0] == $matches[0][1];
         }
         return null;
     }
@@ -575,9 +575,9 @@ class LinguaStem {
 
             return preg_match("/($consonant$vowel$consonant)$/", $string, $matches)
                 AND mb_strlen($matches[1]) == 3
-                AND $matches[1]{2} != 'w'
-                AND $matches[1]{2} != 'x'
-                AND $matches[1]{2} != 'y';
+                AND $matches[1][2] != 'w'
+                AND $matches[1][2] != 'x'
+                AND $matches[1][2] != 'y';
         }
         return null;
     }
