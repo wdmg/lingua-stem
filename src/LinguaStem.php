@@ -11,10 +11,10 @@ namespace wdmg\lingua;
  * [http://snowball.tartarus.org/algorithms/russian/stemmer.html]
  *
  * @category        Library
- * @version         1.0.1
+ * @version         1.1.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/lingua-stem
- * @copyright       Copyright (c) 2020 by W.D.M.Group, Ukraine (https://wdmg.com.ua/)
+ * @copyright       Copyright (c) 2020-2023 by W.D.M.Group, Ukraine (https://wdmg.com.ua/)
  * @copyright       Copyright (c) 2017 by Roman Romadin <romadinr@i.ua>
  * @copyright       Copyright (c) 2005 by Richard Heyes (https://www.phpguru.org/)
  * @copyright       Copyright (c) 2005 by Jon Abernathy, Hostmake LLC

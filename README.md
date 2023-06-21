@@ -40,11 +40,12 @@ https://en.wikipedia.org/wiki/Stemming
 https://ru.wikipedia.org/wiki/Стеммер_Портера
 
 # Status and version [ready to use]
+* v.1.1.0 - Update copyrights
 * v.1.0.1 - Added namespace
 * v.1.0.0 - Added LinguaStem() class code and library  of patterns
 
 # Copyrights
-* Copyright (c) 2020 W.D.M.Group, Ukraine (https://wdmg.com.ua/)
+* Copyright (c) 2023 W.D.M.Group, Ukraine (https://wdmg.com.ua/)
 * Copyright (c) 2020 by Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
 * Copyright (c) 2017 by Roman Romadin <romadinr@i.ua>
 * Copyright (c) 2005 by Richard Heyes (https://www.phpguru.org/)
